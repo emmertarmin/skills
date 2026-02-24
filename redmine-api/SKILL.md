@@ -45,11 +45,32 @@ curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
 ```
 Priority IDs: 1=Low, 2=Normal, 3=High, 4=Urgent, 5=Immediate
 
-### Search by Keywords
+### Search by Keywords (Issues Only)
 ```bash
 curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
   "$REDMINE_API_URL/issues.json?q=bug+crash&project_id=5,6,7&limit=100"
 ```
+
+### Global Search (All Resources)
+```bash
+curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
+  "$REDMINE_API_URL/search.json?q=bug+crash&limit=100"
+```
+Search across issues, wiki pages, news, documents, changesets, messages, and projects.
+
+### Search Specific Resource Types
+```bash
+curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
+  "$REDMINE_API_URL/search.json?q=keyword&issues=1&wiki_pages=1&limit=50"
+```
+Available filters: `issues`, `news`, `documents`, `changesets`, `wiki_pages`, `messages`, `projects`
+
+### Search Options
+- `scope`: 'all' (all projects), 'my_project' (assigned projects), 'subprojects' (include subprojects)
+- `all_words=1`: Match all query strings (AND search)
+- `titles_only=1`: Search only in titles
+- `open_issues=1`: Filter to open issues only
+- `attachments=1`: Search in attachments ('0'=description only, '1'=description+attachments, 'only'=attachments only)
 
 ### Issues Updated Recently
 ```bash
@@ -126,7 +147,8 @@ curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
    - GET /issues/12345.json?include=journals, then filter journals by date
 
 5. **"Find tickets about {keywords} in {projects}"**
-   - GET /issues.json?q={keywords}&project_id={project_ids}&limit=100
+   - GET /search.json?q={keywords}&issues=1&limit=100 (search across all resources)
+   - GET /issues.json?q={keywords}&project_id={project_ids}&limit=100 (search issues only)
 
 6. **"Tickets assigned to me ready for deployment"**
    - GET /issues.json?assigned_to_id=me&status_id={ready_status}&cf_{deployment_flag}={value}
@@ -190,11 +212,44 @@ curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
 }
 ```
 
+**Search Result:**
+```json
+{
+  "results": [
+    {
+      "id": 5,
+      "title": "Wiki: Wiki_Page_Name",
+      "type": "wiki-page",
+      "url": "http://redmine.example.com/projects/project_name/wiki/Wiki_Page_Name",
+      "description": "wiki content...",
+      "datetime": "2016-03-25T05:23:35Z"
+    },
+    {
+      "id": 10,
+      "title": "Issue #10 (Closed): Issue_Title",
+      "type": "issue closed",
+      "url": "http://redmine.example.com/issues/10",
+      "description": "issue description...",
+      "datetime": "2016-03-24T05:18:59Z"
+    }
+  ],
+  "total_count": 2,
+  "offset": 0,
+  "limit": 25
+}
+```
+
 ## Helper Endpoints
 
 **Get current user:**
 ```bash
 curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" "$REDMINE_API_URL/my/account.json"
+```
+
+**Global Search:**
+```bash
+curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
+  "$REDMINE_API_URL/search.json?q=keyword&issues=1&wiki_pages=1&limit=50"
 ```
 
 **List projects:**
