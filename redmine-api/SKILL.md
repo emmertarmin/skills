@@ -273,6 +273,16 @@ curl -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
   "$REDMINE_API_URL/enumerations/issue_priorities.json"
 ```
 
+**Create Time Entry (requires explicit request)**
+```bash
+curl -X POST -H "X-Redmine-API-Key: $REDMINE_API_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"time_entry":{"issue_id":12345,"hours":0.5,"activity_id":9,"comments":"Work description","spent_on":"2026-03-04"}}' \
+  "$REDMINE_API_URL/time_entries.json"
+```
+Activities: `GET /enumerations/time_entry_activities.json` to find ID. Hours: Decimal (e.g., 0.5)
+Common activity IDs: 9="Enwicklung", 13="Bugfix", 14="Abstimmung/Support intern".
+
 ## ⚠️ WRITE OPERATIONS FORBIDDEN
 
 **DO NOT** perform any write operations unless the user explicitly and clearly requests them with statements like:
