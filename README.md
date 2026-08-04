@@ -4,6 +4,8 @@ A collection of skills and extensions I use with AI coding agents.
 
 ## Skills
 
+Skills are stored in [`skills/`](./skills).
+
 - **cfml-format-and-lint** — Format CFML with `cfformat` and lint it with CFLint.
 - **memory** — Search, retrieve, and write indexed Markdown knowledge using the `memory` CLI.
 - **messer-und-gabel** — Download and extract the current Messer & Gabel weekly lunch menu.
