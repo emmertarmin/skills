@@ -30,7 +30,7 @@ Some skills require the external tools or credentials described in their `SKILL.
 The [`extensions`](./extensions) directory contains my current [Pi extensions](https://github.com/earendil-works/pi-mono):
 
 - **handoff.ts** — Generate an editable prompt and transfer work into a fresh session.
-- **no-git-commit-push.ts** — Block `git commit` and `git push` so they remain the user's responsibility.
+- **no-git-commit-push.ts** — Ask once per project whether Pi can run `git commit` and `git push`; change the saved policy with `/git-writes`.
 - **presentation-view.ts** — Show a full-screen, scrollable prompt-and-answer presentation view with `F8`.
 - **review.ts** — Add the `/review` workflow backed by OpenCode's read-only reviewer.
 - **herdr-agent-state.ts** — Report Pi state to herdr. This file is generated and managed by herdr and may be overwritten when that integration is updated.
